@@ -28,7 +28,13 @@ PointContact::PointContact(Body *b1, Body *b2, position pos, vec3 norm) :
   }
   optimalCoeffs = new double[contactDim];
   setUpFrictionEdges();
+  this->ambientColor = new SbColor(0.2f, 0.0f, 0.0f);
+  this->diffuseColor = new SbColor(0.8f, 0.0f, 0.0f);
+  this->emissiveColor = new SbColor(0.4f, 0.0f, 0.0f);
+  static int incrementalId = 0;
+  this->id = incrementalId++;
 }
+
 
 PointContact::~PointContact()
 {
@@ -53,6 +59,18 @@ int PointContact::setUpFrictionEdges(bool dynamicsOn)
   return setUpFrictionEllipsoid(1, numDirs, phi, eccen);
 }
 
+void PointContact::setDiffuseColor(float r, float g, float b){
+	this->diffuseColor->setValue(r, g, b);
+}
+
+void PointContact::setAmbientColor(float r, float g, float b){
+	this->ambientColor->setValue(r, g, b);
+}
+
+void PointContact::setEmissiveColor(float r, float g, float b){
+	this->emissiveColor->setValue(r, g, b);
+}
+
 /*! Return a visual indicator showing the contact cone */
 SoSeparator *
 PointContact::getVisualIndicator()
@@ -72,9 +90,13 @@ PointContact::getVisualIndicator()
   //this is now a member of the class so no need to declare it here
   coneMat = new SoMaterial;
 
-  coneMat->diffuseColor = SbColor(0.8f, 0.0f, 0.0f);
-  coneMat->ambientColor = SbColor(0.2f, 0.0f, 0.0f);
-  coneMat->emissiveColor = SbColor(0.4f, 0.0f, 0.0f);
+  //coneMat->diffuseColor = SbColor(0.8f, 0.0f, 0.0f);
+  //coneMat->ambientColor = SbColor(0.2f, 0.0f, 0.0f);
+  //coneMat->emissiveColor = SbColor(0.4f, 0.0f, 0.0f);
+  coneMat->diffuseColor = *this->diffuseColor;
+  coneMat->ambientColor = *this->ambientColor;
+  coneMat->emissiveColor = *this->emissiveColor;
+
   /*
       coneR = ((float)rand())/RAND_MAX;
       coneG = ((float)rand())/RAND_MAX;

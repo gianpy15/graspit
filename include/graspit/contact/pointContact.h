@@ -7,6 +7,7 @@
 
 class Body;
 class SoSeparator;
+class SbColor;
 
 //! A Point Contact With Friction (PCWF) implementing a Coulomb friction model
 /*! The Point Contact simulates rigid bodies in contact. As such, its wrench
@@ -25,6 +26,15 @@ class PointContact : public Contact
     int setUpFrictionEdges(bool dynamicsOn = false);
     //! Returns the visual indicator which is the wrench space cone itself
     SoSeparator *getVisualIndicator();
+
+    void setDiffuseColor(float r, float g, float b);
+    void setAmbientColor(float r, float g, float b);
+    void setEmissiveColor(float r, float g, float b);
+   private:
+    SbColor *diffuseColor;
+    SbColor *ambientColor;
+    SbColor *emissiveColor;
+    int id;
 };
 
 #endif
