@@ -170,6 +170,9 @@ class Grasp : public QObject {
     /*! Return a pointer to the object that is the focus of this grasp. */
     GraspableBody          *getObject() const {return object;}
 
+    /*! Redurn a pointer to the hand that holds this grasp. */
+    Hand		   *getHand() const {return hand;}
+
     /*! Return the number of grasp contacts. */
     int                     getNumContacts() const {return numContacts;}
 
