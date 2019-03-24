@@ -344,7 +344,9 @@ Contact::localToWorldWrenchMatrix() const
   Ro.copySubMatrix(3, 3, Rot);
   //for torque we also multiply by a cross product matrix
   vec3 worldLocation = contactTran.translation();
-  vec3 cog = getBody2()->getTran().translation();
+  vec3 cog = getBody2()->getTran().translation(); // <-- original line
+  if(getBody2()->isA("GraspableBody"))	// <-- added these two lines
+    cog += static_cast<GraspableBody *>(getBody2())->getCoG();
   mat3 C; setCrossProductMatrix(C, worldLocation - cog);
   Matrix CR(3, 3);
   matrixMultiply(Matrix::ROTATION(C.transpose()), Rot, CR);
